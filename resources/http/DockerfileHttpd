@@ -1,0 +1,4 @@
+FROM httpd:latest
+ADD ./resources/index.html /usr/local/apache2/htdocs/
+COPY ./resources/docker.png /usr/local/apache2/htdocs/docker.png
+EXPOSE 80

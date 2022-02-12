@@ -1,0 +1,61 @@
+version: '3.8'
+services:
+   docker_mongo_db:
+      image: mongo:latest
+      environment:
+         - MONGO_INITDB_DATABASE=docker_mongo_db
+         - MONGO_INITDB_ROOT_USERNAME=cbaciliod
+         - MONGO_INITDB_ROOT_PASSWORD=cbaciliod
+      ports:
+         - 27017:27017
+      healthcheck:
+         test: 
+            - CMD
+#            - echo 'db.runCommand("ping").ok'
+            - mongo
+            - --eval
+            - "db.stats()"
+         interval: 5s
+         timeout: 5s
+         retries: 5
+      container_name: docker_mongo_db
+      networks:
+         - docker-red
+
+   docker_backend:
+      build:
+         context: "./backend/"
+         dockerfile: Dockerfile
+      ports:
+         - 8000:8000
+      healthcheck:
+         test: ["CMD","curl","-f","http://10.64.123.78:8000/api/findall"]
+         interval: 5s
+         timeout: 5s
+         retries: 5
+      container_name: docker_backend
+      networks:
+         - docker-red
+      depends_on:
+         docker_mongo_db:
+            condition: service_healthy
+      links:
+         - docker_mongo_db
+
+   docker_frontend:
+      build:
+         context: "./frontend/docker-app/"
+         dockerfile: Dockerfile
+      ports:
+         - 4200:4200
+      container_name: docker_frontend
+      networks:
+         - docker-red
+      depends_on:
+         docker_backend:
+            condition: service_healthy
+      links:
+         - docker_backend
+
+networks:
+   docker-red:

@@ -1,0 +1,22 @@
+Apine, imagen mas ligera de todas
+
+#pregunta:
+
+por defecto en docker: latest
+
+COPY nos sirve para manipular el archivo (cambiar de nombre)
+
+-t = taggear o crear de la imagen version
+
+# CREAR UNA IMAGEN
+
+docker image build -t cbaciliod:0.0.1 -f Dockerfile .
+
+# EJECUTAR CONTAINER
+docker container run --rm -it -p 8080:80 httpd-local:latest
+
+#EJECUTAR UN PROYECTO SPRING EN TERMINAL
+mvn spring-boot:run
+
+#EJECUTAR POSTGRES
+docker run --rm -it -p 5432:5432 -e POSTGRES_PASSWORD=cbaciliod -e POSTGRES_DB=docker postgresql-home:latest
