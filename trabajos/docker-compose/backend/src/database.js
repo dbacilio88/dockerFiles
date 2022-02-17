@@ -2,7 +2,7 @@
 
 module.exports = {
     parameters: {
-        url: 'mongodb://10.64.123.78:27017',
+        url: 'mongodb://127.0.0.1:27017',
         mongo_opts: {
             user: 'cbaciliod',
             pass: 'cbaciliod',

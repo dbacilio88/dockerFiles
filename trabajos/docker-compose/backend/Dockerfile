@@ -1,4 +1,4 @@
-FROM node:lts-slim
+FROM node:16.14.0-stretch-slim
 
 LABEL "aplicacion.backend"="Christian Bacilio De La Cruz"
 
@@ -21,3 +21,4 @@ EXPOSE 8000
 
 #CMD npm run start
 CMD nodemon -L --watch . src/index.js
+#https://deb.nodesource.com/setup_16.x

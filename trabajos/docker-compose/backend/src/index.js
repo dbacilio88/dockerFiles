@@ -35,12 +35,25 @@ server.listen(8000, () => {
     console.log('Servidor running');
 });
 
-//'mongodb://localhost:27017'
-mongoose.connect(db.url, db.mongo_opts, err => {
-    if (err) {
-        console.log('Error en la base de datos');
-    }
-    console.log('Conectado db');
+// mongoose.connect(db.url, db.mongo_opts, err => {
+//     if (err) {
+//         console.log('Error en la base de datos');
+//     } else {
+//         console.log('Conectado db');
+//     }
+// });
+
+
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://cbaciliod:cbaciliod@docker_mongo_db:27017', { useNewUrlParser: true, useUnifiedTopology: true });
+var dbs = mongoose.connection;
+
+dbs.on('error', function (err) {
+    console.log('connection error', err);
+});
+
+dbs.once('open', function () {
+    console.log('Connection to DB successful');
 });
 
 router(app);
